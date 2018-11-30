@@ -3,7 +3,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import os
 
 from plot import get_div
-from parser import get_dates, get_x_y
+from freestyleparser import get_dates, get_x_y
 import sys
 
 FMT = """<html>

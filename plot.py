@@ -5,7 +5,7 @@ from datetime import datetime
 from plotly.offline import plot
 
 
-def get_div(historic: (List[datetime], List[float]), scan: (List[datetime], List[float])):
+def get_div(historic: (List[str], List[float]), scan: (List[str], List[float])):
 
     data = [
         go.Scatter(

@@ -29,3 +29,7 @@ python3 server.py <file> [<port>]
 ### Disclaimer
 
 You can use this tool without warranty, on your own risk. This tool is given as-is.
+
+### Contact
+
+In case you have any problem with this tool or have any idea how to improve it, please create new issue or contact me directly by email: simeon.borko@gmail.com

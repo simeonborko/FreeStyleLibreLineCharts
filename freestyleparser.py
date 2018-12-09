@@ -14,8 +14,8 @@ def get_dates(file) -> List[str]:
         next(fp)
         next(fp)
         reader = csv.reader(fp, delimiter='\t')
-        all_times = (row[1] for row in reader)
-        groups = groupby(all_times, key=lambda t: t[:10])
+        all_dates = sorted(row[1][:10] for row in reader)
+        groups = groupby(all_dates)
         return [k for k, _ in groups]
 
 

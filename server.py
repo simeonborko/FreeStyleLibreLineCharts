@@ -2,8 +2,8 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 import os
 
-from plot import get_div
-from freestyleparser import get_dates, get_x_y
+from plot import plot_it
+from freestyleparser import get_dates, get_data
 import sys
 
 FMT = """<html>
@@ -16,30 +16,32 @@ FMT = """<html>
 
 
 class RequestHandler(BaseHTTPRequestHandler):
-
     def do_GET(self):
 
-        if self.path == '/':
+        if self.path == "/":
             dates = get_dates(file)[::-1]
 
-            body = "<h1>Libre Line Charts</h1><ul>{}</ul>".format(''.join(
-                ('<li><a href="/{0}">{0}</a></li>'.format(d) for d in dates)
-            ))
+            body = "<h1>Libre Line Charts</h1><ul>{}</ul>".format(
+                "".join(('<li><a href="/{0}">{0}</a></li>'.format(d) for d in dates))
+            )
 
             self.send_response(200)
             self.end_headers()
-            self.wfile.write(bytes(FMT.format(body), 'utf-8'))
+            self.wfile.write(bytes(FMT.format(body), "utf-8"))
 
+        elif self.path.startswith("/20"):
+            data = get_data(file, self.path[1:])
+
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(bytes(FMT.format(plot_it(data)), "utf-8"))
         else:
-
-            data = get_x_y(file, self.path[1:])
-
-            self.send_response(200)
+            self.send_response(404)
             self.end_headers()
-            self.wfile.write(bytes(FMT.format(get_div(*data)), 'utf-8'))
+            self.wfile.write(bytes(FMT.format("oops"), "utf-8"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     # <file> [<port>]
 
@@ -60,6 +62,6 @@ if __name__ == '__main__':
             print("Incorrect port number.", file=sys.stderr)
             sys.exit(1)
 
-    httpd = HTTPServer(('localhost', port), RequestHandler)
-    print('Data file: {}\nServing at port {}'.format(file, port))
+    httpd = HTTPServer(("localhost", port), RequestHandler)
+    print("Data file: {}\nServing at port {}".format(file, port))
     httpd.serve_forever()

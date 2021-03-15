@@ -5,24 +5,34 @@ from datetime import datetime
 from plotly.offline import plot
 
 
-def get_div(historic: (List[str], List[float]), scan: (List[str], List[float])):
-
-    data = [
+def plot_it(data):
+    plot_config = [
         go.Scatter(
-            x=historic[0],
-            y=historic[1],
-            mode='lines+markers',
-            name='Historic Glucose',
-            line=dict(
-                shape='spline'
-            )
+            x=data["historic"]["x"],
+            y=data["historic"]["y"],
+            mode="lines+markers",
+            name="Historic Glucose",
+            line=dict(shape="spline"),
         ),
         go.Scatter(
-            x=scan[0],
-            y=scan[1],
-            mode='markers',
-            name='Scan Glucose'
+            x=data["scan"]["x"],
+            y=data["scan"]["y"],
+            mode="markers",
+            name="Scan Glucose",
         ),
     ]
 
-    return plot(data, include_plotlyjs='cdn', output_type='div')
+    for type_ in ["no food", "insulin_short", "insulin_long"]:
+        if not data.get(type_):
+            continue
+
+        plot_config.append(
+            go.Scatter(
+                x=data[type_]["x"],
+                y=data[type_]["y"],
+                mode="markers",
+                name=type_,
+            ),
+        )
+
+    return plot(plot_config, include_plotlyjs="cdn", output_type="div")

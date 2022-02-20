@@ -23,7 +23,7 @@ python3 server.py <file> [<port>]
 6. Run server by: ```python3 server.py <FILE>```, where `<FILE>` is the path for your data file (previous point)
 7. Open `http://localhost:8000/` in your web browser
 8. Select date you are interested in
-9. Enjoy and learn from plot :)
+9. Enjoy and learn from plot ;)
 10. Terminate server by Ctrl+C or by closing your terminal
 
 ### Disclaimer
